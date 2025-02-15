@@ -1,8 +1,14 @@
-import dotenv from 'dotenv';
-import connectDB from './config/db.js';
-import app from './app.js';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
+
+export const  PORT: number = parseInt(process.env.PORT || '5000', 10);
+export const JWT_SECRET = process.env.JWT_SECRET as string;
+export const MONGO_URI = process.env.MONGO_URI  as string;
+
+
+import connectDB from './config/db.js';
+import app from './app.js';
 
 
 //connect to MongoDB
@@ -10,8 +16,6 @@ connectDB();
 
 
 //start the server
-const PORT: number = parseInt(process.env.PORT || '6000',10);
-
 app.listen(PORT,(): void => {
     console.log(`Server running on port ${PORT}`);
 })
