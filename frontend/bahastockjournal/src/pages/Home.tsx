@@ -2,9 +2,48 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 import { Sunwithface, NewMoonFace } from "../components/icons/ThemeIcons/ThemeIcons";
 import { useTheme } from "../contexts/ThemeContext";
+import Logo from '../assets/logo.png';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { UserAPI } from "../common/ServerBackEnd";
+
 
 const Home = () => {
     const { theme, toggleTheme } = useTheme();
+    const [userRole, setUserRole] = useState<string | null>(null);
+
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios({
+                    method: UserAPI.User_Role_EMAIL.method,
+                    url: UserAPI.User_Role_EMAIL.url,
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setUserRole(response.data.role);
+
+
+            } catch (error: any) {
+                console.error('Fetch error:', error.response ? error.response.data : error.message);
+
+            }
+        }
+
+        fetchUserRole();
+    }, []);
+
+    const logOutUserHome = (): void => {
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('expiresIn');
+
+
+
+    }
+
+
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -27,10 +66,19 @@ const Home = () => {
             </header>
 
             {/* Main content */}
-            <main className="p-6 flex flex-col items-center justify-center flex-grow text-LD bg-secondaryBg-light dark:bg-secondaryBg-dark ">
+            <main className="p-6 flex flex-col items-center justify-center flex-grow text-LD bgS-LD ">
+                <img src={Logo} alt="Logo" />
                 <p className="text-3xl font-bold">Welcome to Bahaa Stock Journal</p>
-                <Link className='bg-cyan-400 p-2 rounded font-bold mt-2 inline-block hover:text-yellow-300 transition-all hover:bg-slate-400' to='dashboard'>Go</Link>
-                <Link className='bg-cyan-400 p-2 rounded font-bold mt-2 inline-block hover:text-yellow-300 transition-all hover:bg-slate-400' to='login'>Login</Link>
+
+                <Link className='bg-cyan-400 p-2 rounded font-bold mt-2 inline-block hover:text-yellow-300 transition-all hover:bg-slate-400' to='dashboard'>Dashboard</Link>
+                <div className="flex justify-between gap-4">
+                    <Link className='bg-cyan-400 p-2 rounded font-bold mt-2 inline-block hover:text-yellow-300 transition-all hover:bg-slate-400' to='login'>Login</Link>
+
+                    <Link className='bg-cyan-400 p-2 rounded font-bold mt-2 inline-block hover:text-yellow-300 transition-all hover:bg-slate-400' to='login' onClick={logOutUserHome}>Logout</Link>
+                </div>
+                {
+                    userRole === 'admin' && <Link className='bg-cyan-400 p-2 rounded font-bold mt-2 inline-block hover:text-yellow-300 transition-all hover:bg-slate-400' to='/admin'>Admin</Link>
+                }
             </main>
 
             {/* Footer */}

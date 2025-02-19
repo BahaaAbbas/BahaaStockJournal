@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../server.js';
+import { JWT_SECRET } from '../config/Config.js';
+
 
 
 export interface AuthRequest extends Request {
@@ -11,9 +12,9 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
   const token = req.header('Authorization')?.split(' ')[1];
 
   if (!token) {
-     res.status(401).json({ message: 'No token, authorization denied' });
-     return;
-    }
+    res.status(401).json({ message: 'No token, authorization denied' });
+    return;
+  }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
@@ -27,8 +28,8 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
 export const authorize = (roles: string[]) => {
   return (req: AuthRequest, res: Response, next: NextFunction): void => {
     if (!roles.includes(req.user.role)) {
-       res.status(403).json({ message: 'Access denied' });
-       return;
+      res.status(403).json({ message: 'Access denied' });
+      return;
     }
     next();
   };

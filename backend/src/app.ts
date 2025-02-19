@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 // import transactionRoutes from './routes/transactionRoutes';
@@ -17,6 +17,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
+
+
 
 //Routes
 // app.use('/transactions', transactionRoutes);

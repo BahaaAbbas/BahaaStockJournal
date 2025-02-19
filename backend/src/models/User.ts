@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface UserIF extends Document {
   email: string;
   password: string;
-  role: 'admin' | 'normaluser';
+  role: 'admin' | 'normal';
 }
 
 const userSchema = new Schema<UserIF>(
@@ -13,16 +13,17 @@ const userSchema = new Schema<UserIF>(
       required: true,
       unique: true,
       trim: true,
-      lowercase: true,
     },
     password: {
       type: String,
       required: true,
+      min: 5,
+
     },
     role: {
       type: String,
-      enum: ['admin', 'normaluser'],
-      default: 'normaluser',
+      enum: ['admin', 'normal'],
+      default: 'normal',
     },
   },
   {

@@ -12,7 +12,7 @@
     
     /* Colors  */
     /* Light */
-  --color-mainBg-light: #f2f5fa;
+  --color-mainBg-light: #D4F6FF;
   --color-secondaryBg-light: #ffffff;
   --color-textMain-light: #000000;
 
@@ -55,6 +55,13 @@ body {
 .bg-LD {
     @apply bg-mainBg-light dark:bg-mainBg-dark
 }
+
+
+.bgS-LD {
+
+    @apply bg-secondaryBg-light dark:bg-secondaryBg-dark
+}
+
 
 
 
