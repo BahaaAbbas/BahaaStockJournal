@@ -4,12 +4,8 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserAPI } from '../../common/ServerBackEnd';
+import { RegisterValues } from '../../Types/Auth';
 
-interface RegisterValues {
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 const Register: React.FC = () => {
 

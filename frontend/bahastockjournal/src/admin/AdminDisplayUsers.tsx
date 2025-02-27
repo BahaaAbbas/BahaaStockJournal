@@ -4,13 +4,9 @@ import { UserAPI } from '../common/ServerBackEnd';
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { User } from '../Types/Admin';
 
-interface User {
-    _id: string;
-    email: string;
-    role: string;
-    createdAt: string;
-}
+
 
 export default function AdminUserTable() {
     const [users, setUsers] = useState<User[]>([]);

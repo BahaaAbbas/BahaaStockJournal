@@ -1,13 +1,11 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
+import { AdminSidebarContextType, ContextProviderProps } from '../Types/Contexts';
 
-interface SidebarContextType {
-    isSidebarOpen: boolean;
-    toggleSidebar: () => void;
-}
 
-const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
-export const SidebarProvider = ({ children }: { children: ReactNode }) => {
+const SidebarContext = createContext<AdminSidebarContextType | undefined>(undefined);
+
+export const SidebarProvider: React.FC<ContextProviderProps> = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const toggleSidebar = () => {

@@ -3,7 +3,7 @@ import Logo from '../assets/logo.png'
 
 const WelcomeAdmin = () => {
     return (
-        <div className=' pl-40 h-screen flex justify-center items-center '>
+        <div className=' h-screen flex justify-center items-center   '>
             <div className=''>
                 <div className=''>
                     <div className="flex items-center justify-center h-[200px] border-none">

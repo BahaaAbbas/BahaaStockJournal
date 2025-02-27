@@ -15,6 +15,7 @@
   --color-mainBg-light: #D4F6FF;
   --color-secondaryBg-light: #ffffff;
   --color-textMain-light: #000000;
+  --color-LayoutBg-light: #f2f5fa;
 
   --color-text-light: #111827;
   --color-primary-light: #3b82f6;
@@ -27,6 +28,7 @@
   --color-mainBg-dark: #101626;
   --color-secondaryBg-dark: #1d2333;
   --color-textMain-dark: #ffffff;
+  --color-HoverSide-dark: #2e3446;
 
   --color-text-dark: #f3f4f6;
   --color-primary-dark: #1d4ed8;
@@ -60,6 +62,23 @@ body {
 .bgS-LD {
 
     @apply bg-secondaryBg-light dark:bg-secondaryBg-dark
+}
+
+.bgLayout-LD {
+  @apply bg-LayoutBg-light dark:bg-mainBg-dark
+}
+
+
+.bgActiveOpenSidebar-LD {
+  @apply bg-[#dfe5ee] dark:bg-[#2e3446]
+}
+
+.bgHoverActiveOpenSidebar-LD {
+  @apply hover:bg-[#dbdfe6] dark:hover:bg-[#2e3446]
+}
+
+.title-text {
+  @apply text-[12px];
 }
 
 

@@ -4,11 +4,11 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAPI } from '../../common/ServerBackEnd';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { LoginValues } from '../../Types/Auth';
 
-interface LoginValues {
-  email: string;
-  password: string;
-}
+
 
 const Login: React.FC = () => {
 
@@ -59,7 +59,8 @@ const Login: React.FC = () => {
       navigate('/');
 
     } catch (error: any) {
-      console.error('Login error:', error.response ? error.response.data : error.message);
+      toast.error(`Login error: ${error.response.data.message}`);
+
 
     }
 
@@ -108,6 +109,7 @@ const Login: React.FC = () => {
             )}
         </Formik>
       </div>
+      <ToastContainer />
     </div>
   );
 };

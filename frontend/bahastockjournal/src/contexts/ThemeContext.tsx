@@ -1,18 +1,13 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { ContextProviderProps, ThemeContextType } from '../Types/Contexts';
 
-type ThemeContextType = {
-    theme: string,
-    toggleTheme: () => void,
-}
+
 
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-interface ThemeProviderProps {
-    children: ReactNode;
-}
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+export const ThemeProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
     const [theme, setTheme] = useState<string>(() => {
         const savedTheme = localStorage.getItem('theme');

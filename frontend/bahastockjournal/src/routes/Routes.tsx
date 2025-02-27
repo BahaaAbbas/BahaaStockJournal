@@ -2,16 +2,33 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
-import Dashboard from "../pages/Dashboard";
-import Layout from "../pages/Layout";
+import Dashboard from "../pages/dashboard/Dashboard";
+import Layout from "../pages/layout/Layout";
 import ProtectedRoute from "./ProtectedRoutes";
 import AdminUserTable from "../admin/AdminDisplayUsers";
 import Admin from "../admin/Admin";
 import WelcomeAdmin from "../admin/WelcomeAdmin";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ProtectedAdminRoutes from "./ProtectedAdminRoutes";
+import Search from "../pages/search/Search";
+import Reports from "../pages/reports/Reports";
+import Trades from "../pages/trades/Trades";
+import Journal from "../pages/journal/Journal";
+import Imports from "../pages/import/Imports";
 
 const routes = [
+    {
+        path: '/login',
+        element: <Login />
+    },
+    {
+        path: '/',
+        element: (
+            <ProtectedRoute>
+                <Home />
+            </ProtectedRoute>
+        )
+    },
     {
         path: '/',
         element: (
@@ -20,14 +37,7 @@ const routes = [
             </ProtectedRoute>
         ),
         children: [
-            {
-                path: '/',
-                element: (
-                    <ProtectedRoute>
-                        <Home />
-                    </ProtectedRoute>
-                )
-            },
+
             {
                 path: 'dashboard',
                 element: (
@@ -35,13 +45,50 @@ const routes = [
                         <Dashboard />
                     </ProtectedRoute>
                 ),
-            }
+            },
+            {
+                path: 'search',
+                element: (
+                    <ProtectedRoute>
+                        <Search />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: 'reports',
+                element: (
+                    <ProtectedRoute>
+                        <Reports />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: 'trades',
+                element: (
+                    <ProtectedRoute>
+                        <Trades />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: 'journal',
+                element: (
+                    <ProtectedRoute>
+                        <Journal />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: 'import',
+                element: (
+                    <ProtectedRoute>
+                        <Imports />
+                    </ProtectedRoute>
+                ),
+            },
         ]
     },
-    {
-        path: '/login',
-        element: <Login />
-    },
+
     {
         path: '/register',
         element: <Register />
@@ -49,7 +96,8 @@ const routes = [
     {
         path: '/forgot-password',
         element: <ForgotPassword />
-    }
+    },
+
 ];
 
 const adminRoutes = [
