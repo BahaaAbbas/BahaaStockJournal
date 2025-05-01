@@ -23,7 +23,8 @@
 ## 📺 Demo
 
 🎥 Here’s a short video showing a part of the project in action:  
-👉 [Watch the Demo] (https://drive.google.com/file/d/1aC063g-Cn4Y8tG48ee8uGZkyjZoOtZB5/view?usp=drive_link)
+👉 <a href="https://drive.google.com/file/d/1aC063g-Cn4Y8tG48ee8uGZkyjZoOtZB5/view?usp=drive_link" target="_blank">Watch the Demo</a>
+
 
 
 ## ⚙️ Tech Stack
