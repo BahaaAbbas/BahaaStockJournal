@@ -1,0 +1,21 @@
+# .gitignore
+
+
+# Node.js
+node_modules/
+
+# TypeScript
+dist/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# Optional: package-lock.json
+package-lock.json
+
+#txt
+ForCommands.txt
