@@ -24,8 +24,8 @@
 
 ## ⚙️ Tech Stack
 
-- **Frontend:** React + Vite + Tailwind CSS  
-- **Backend:** Node.js + Express  
+- **Frontend:** React + Vite + TypeScript + Tailwind CSS 
+- **Backend:** Node.js + Express + TypeScript 
 - **Database:** MongoDB  
 - **Authentication:** JWT + Cookies
 
