@@ -20,6 +20,10 @@
 - 📊 **Charts & Stats** *(coming soon)*  
   Track win rate, equity curve, and tag-based filtering.
 
+## 📺 Demo
+
+🎥 Here’s a short video showing a part of the project in action:  
+👉 [Watch the Demo](https://demo-video-link.com)  
 
 
 ## ⚙️ Tech Stack
