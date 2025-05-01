@@ -1,6 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ContextProviderProps, DashboardContextType } from "../Types/Contexts";
 import { DashboardLineWithTextsProps } from "../Types/Dashboard";
+import axios from "axios";
+import { TradeAPI } from "../common/ServerBackEnd";
 
 
 const DashboardContext = createContext<DashboardContextType | undefined>(undefined);
@@ -9,85 +11,85 @@ const DashboardContext = createContext<DashboardContextType | undefined>(undefin
 export const DashboardProvider: React.FC<ContextProviderProps> = ({ children }) => {
 
     const [comDays, setComDays] = useState<string>('30 Days');
+    const [comDaysNumber, setComDaysNumber] = useState<number>(30);
+    const [currentUserEmail, setCurrentUserEmail] = useState<string>('');
+
+    const [normalMatrices, setNormalMatrices] = useState<number[]>([]);
+
+    const [cumulativePnLData, setCumulativePnLData] = useState([]);
+    const [winPercentagesData, setWinPercentagesData] = useState([]);
+    const [cumulativeDrawdownData, setCumulativeDrawdownData] = useState([]);
+    const [dailyVolumeData, setDailyVolumeData] = useState([]);
+    const [averageTradePnLData, setAverageTradePnLData] = useState([]);
+
+    const [performanceByDay, setPerformanceByDay] = useState([]);
+    const [performanceByPrice, setPerformanceByPrice] = useState([]);
+    const [performanceByDuration, setPerformanceByDuration] = useState([]);
+    const [performanceByMonth, setPerformanceByMonth] = useState([]);
+    const [performanceByHour, setPerformanceByHour] = useState([]);
+
+
+    useEffect(() => {
+        console.log(`comDays has been updated to: ${comDays}`);
+    }, [comDays]);
 
     const setCom30Days = () => {
         setComDays('30 Days');
-        console.log(`Dash30Days: ${comDays}`)
+
     }
 
     const setCom60Days = () => {
         setComDays('60 Days');
-        console.log(`Dash60Days: ${comDays}`)
+
     }
 
     const setCom90Days = () => {
         setComDays('90 Days');
-        console.log(`Dash90Days: ${comDays}`)
     }
 
     // Performance By Day Of Week
     const PerformanceByDayOfWeek: { [key: number]: DashboardLineWithTextsProps[] } = {
-        1: [
-            { percent: 100, type: "W", leftText: "Sun", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 20, type: "W", leftText: "Mon", rightPriceText: "$-3.98", rightPercentText: "19.25%" },
-            { percent: 100, type: "W", leftText: "Tue", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "Wed", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "Thu", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "Fri", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "Sat", rightPriceText: "$12.37", rightPercentText: "59.85%" },
 
+
+        1: [
+            ...performanceByDay
         ]
     };
 
     // Performance By Duration
     const PerformanceByDuration: { [key: number]: DashboardLineWithTextsProps[] } = {
+
         1: [
-            { percent: 100, type: "W", leftText: "Intraday", rightPriceText: "$55040.71", rightPercentText: "100.0%" },
-            { percent: 20, type: "W", leftText: "Multiday", rightPriceText: "$0.0", rightPercentText: "0.0%" },
-        ],
+            ...performanceByDuration
+        ]
     }
 
     // Performance By Price
     const PerformanceByPrice: { [key: number]: DashboardLineWithTextsProps[] } = {
+
         1: [
-            { percent: 100, type: "W", leftText: "< $2.00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 20, type: "W", leftText: "$2 - $4.99", rightPriceText: "$-3.98", rightPercentText: "19.25%" },
-            { percent: 100, type: "W", leftText: "$5 - $9.99", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 100, type: "W", leftText: "$10 - $19.99", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "$20 - $49.99", rightPriceText: "$12.37", rightPercentText: "59.85%" }
+            ...performanceByPrice
         ],
-        2: [
-            { percent: 60, type: "W", leftText: "$50 - $99.99", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "$100 - $199.99", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "$200 - $499.99", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "$500 - $999.99", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "$1000 >", rightPriceText: "$12.37", rightPercentText: "59.85%" }
-        ]
+
     }
 
     // Performance By Hour Of Day
     const PerformanceByHourOfDay: { [key: number]: DashboardLineWithTextsProps[] } = {
+
+
         1: [
-            { percent: 100, type: "W", leftText: "6:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 20, type: "W", leftText: "7:00", rightPriceText: "$-3.98", rightPercentText: "19.25%" },
-            { percent: 100, type: "W", leftText: "8:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 100, type: "W", leftText: "9:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "10:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "11:00", rightPriceText: "$12.37", rightPercentText: "59.85%" }
+            ...performanceByHour.slice(0, Math.ceil(performanceByHour.length / 4))
         ],
         2: [
-            { percent: 40, type: "W", leftText: "12:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 100, type: "W", leftText: "13:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "14:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "15:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "16:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "17:00", rightPriceText: "$12.37", rightPercentText: "59.85%" }
+            ...performanceByHour.slice(Math.ceil(performanceByHour.length / 4), Math.ceil(performanceByHour.length / 4) * 2)
         ],
         3: [
-            { percent: 60, type: "W", leftText: "18:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "19:00", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "20:00", rightPriceText: "$12.37", rightPercentText: "59.85%" }
-        ]
+            ...performanceByHour.slice(Math.ceil(performanceByHour.length / 4) * 2, Math.ceil(performanceByHour.length / 4) * 3)
+        ],
+        4: [
+            ...performanceByHour.slice(Math.ceil(performanceByHour.length / 4) * 3)
+        ],
+
     }
 
     // Performance By Instrument Opening Gap
@@ -121,9 +123,10 @@ export const DashboardProvider: React.FC<ContextProviderProps> = ({ children }) 
             { percent: 100, type: "W", leftText: "100K - 249K", rightPriceText: "$12.37", rightPercentText: "59.85%" },
             { percent: 100, type: "W", leftText: "250K - 499K", rightPriceText: "$12.37", rightPercentText: "59.85%" },
             { percent: 80, type: "W", leftText: "500K - 1M", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "1M - 2.49M", rightPriceText: "$12.37", rightPercentText: "59.85%" }
+
         ],
         2: [
+            { percent: 60, type: "W", leftText: "1M - 2.49M", rightPriceText: "$12.37", rightPercentText: "59.85%" },
             { percent: 80, type: "W", leftText: "2.5M - 4.9M", rightPriceText: "$12.37", rightPercentText: "59.85%" },
             { percent: 60, type: "W", leftText: "5M - 9.9M", rightPriceText: "$12.37", rightPercentText: "59.85%" },
             { percent: 40, type: "W", leftText: "10M - 24.9M", rightPriceText: "$12.37", rightPercentText: "59.85%" },
@@ -133,22 +136,13 @@ export const DashboardProvider: React.FC<ContextProviderProps> = ({ children }) 
 
     // Performance By Month Of Year
     const PerformanceByMonthOfYear: { [key: number]: DashboardLineWithTextsProps[] } = {
+
         1: [
-            { percent: 100, type: "W", leftText: "Jan", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 20, type: "W", leftText: "Feb", rightPriceText: "$-3.98", rightPercentText: "19.25%" },
-            { percent: 100, type: "W", leftText: "Mar", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 100, type: "W", leftText: "Apr", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "May", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "Jun", rightPriceText: "$12.37", rightPercentText: "59.85%" }
+            ...performanceByMonth.slice(0, Math.ceil(performanceByMonth.length / 2))
         ],
         2: [
-            { percent: 40, type: "W", leftText: "Jul", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "Aug", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "Sep", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 40, type: "W", leftText: "Oct", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 80, type: "W", leftText: "Nov", rightPriceText: "$12.37", rightPercentText: "59.85%" },
-            { percent: 60, type: "W", leftText: "Dec", rightPriceText: "$12.37", rightPercentText: "59.85%" }
-        ]
+            ...performanceByMonth.slice(Math.ceil(performanceByMonth.length / 2))
+        ],
     }
 
 
@@ -207,15 +201,163 @@ export const DashboardProvider: React.FC<ContextProviderProps> = ({ children }) 
         ]
     }
 
+    // Generate dynamic data
+    const dynamicPerformanceBySymbolAtr = generateDynamicData(PerformanceBySymbolAtr);
+    const dynamicPerformanceByRvol = generateDynamicData(PerformanceByRvol);
+    const dynamicPerformanceByInstrumentMovement = generateDynamicData(PerformanceByInstrumentMovement);
+    const dynamicPerformanceByInstrumentVolume = generateDynamicData(PerformanceByInstrumentVolume);
+    const dynamicPerformanceByInstrumentDayType = generateDynamicData(PerformanceByInstrumentDayType);
+    const dynamicPerformanceByInstrumentOpeningGap = generateDynamicData(PerformanceByInstrumentOpeningGap);
+
+
+
+    const sampleLineData = [
+        { date: '2024-11-01', value: 450 },
+        { date: '2024-11-02', value: 600 },
+        { date: '2024-11-03', value: 150 },
+    ];
+
+    const sampleBarData = [
+        { date: '2024-11-01', value: 450 },
+        { date: '2024-11-02', value: 600 },
+        { date: '2024-11-03', value: 150 },
+    ];
+
+
+
+    useEffect(() => {
+
+        const fetchCurrentUserEmail = () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    setCurrentUserEmail(payload.email);
+                }
+            } catch (error) {
+                console.error('Failed to fetch current user:', error);
+            }
+        };
+
+        fetchCurrentUserEmail();
+    }, []);
+
+
+    useEffect(() => {
+        switch (comDays) {
+            case '30 Days':
+                setComDaysNumber(30);
+                break;
+            case '60 Days':
+                setComDaysNumber(60);
+                break;
+            case '90 Days':
+                setComDaysNumber(90);
+                break;
+            default:
+                setComDaysNumber(1);
+        }
+    }, [comDays]);
+
+    useEffect(() => {
+
+        const fetchOtherMatrices = async () => {
+            if (!currentUserEmail) return;
+
+            console.log(currentUserEmail)
+            try {
+                const response = await axios({
+                    method: TradeAPI.Other_Matrices.method,
+                    url: `${TradeAPI.Other_Matrices.url}?email=${currentUserEmail}&duration=${comDaysNumber}`,
+                });
+                const data = response.data;
+                setCumulativePnLData(data.cumulativePnL);
+                setWinPercentagesData(data.winPercentages);
+                setCumulativeDrawdownData(data.cumulativeDrawdown);
+                setDailyVolumeData(data.dailyVolume);
+                setAverageTradePnLData(data.averageTradePnL);
+            } catch (error) {
+                console.error('Error fetching Other Matrices data:', error);
+            }
+        };
+
+        fetchOtherMatrices();
+    }, [currentUserEmail, comDaysNumber]);
+
+    useEffect(() => {
+
+        const fetchPerformanceMatrices = async () => {
+            if (!currentUserEmail) return;
+
+
+            try {
+                const response = await axios({
+                    method: TradeAPI.Performance_Matrices.method,
+                    url: `${TradeAPI.Performance_Matrices.url}?email=${currentUserEmail}&duration=${comDaysNumber}`,
+                });
+                const data = response.data;
+
+                setPerformanceByDay(data.performanceByDay);
+
+                setPerformanceByPrice(data.performanceByPrice);
+
+                setPerformanceByDuration(data.performanceByDuration);
+                setPerformanceByMonth(data.performanceByMonth);
+                setPerformanceByHour(data.performanceByHour);
+
+            } catch (error) {
+                console.error('Error fetching Performance Matrices data:', error);
+            }
+        };
+
+        fetchPerformanceMatrices();
+    }, [currentUserEmail, comDaysNumber]);
+
+    useEffect(() => {
+
+        const fetchNormalMatrices = async () => {
+            if (!currentUserEmail) return;
+
+
+            try {
+                const response = await axios({
+                    method: TradeAPI.Normal_Matrices.method,
+                    url: `${TradeAPI.Normal_Matrices.url}?email=${currentUserEmail}&duration=${comDaysNumber}`,
+                });
+                const data = response.data;
+                const numberArray = Object.values(data).map(Number);
+                setNormalMatrices(numberArray);
+                console.log(numberArray);
+
+
+            } catch (error) {
+                console.error('Error fetching Normal Matrices data:', error);
+            }
+        };
+
+        fetchNormalMatrices();
+    }, [currentUserEmail, comDaysNumber]);
+
 
     return (
         <DashboardContext.Provider value={{
             comDays,
             setCom30Days, setCom60Days, setCom90Days,
+            dynamicPerformanceBySymbolAtr, dynamicPerformanceByRvol, dynamicPerformanceByInstrumentMovement,
+            dynamicPerformanceByInstrumentVolume, dynamicPerformanceByInstrumentDayType,
+            dynamicPerformanceByInstrumentOpeningGap,
+
+            cumulativePnLData, winPercentagesData, cumulativeDrawdownData, dailyVolumeData, averageTradePnLData,
+
+            normalMatrices,
+
+
             PerformanceByDayOfWeek, PerformanceByDuration, PerformanceByPrice,
             PerformanceByHourOfDay, PerformanceByInstrumentOpeningGap, PerformanceByInstrumentDayType,
             PerformanceByInstrumentVolume, PerformanceByMonthOfYear, PerformanceBySymbolAtr,
-            PerformanceByRvol, PerformanceByInstrumentMovement
+            PerformanceByRvol, PerformanceByInstrumentMovement,
+            sampleLineData, sampleBarData,
+
 
 
         }}>
@@ -229,9 +371,31 @@ export const useDashboardContext = () => {
     const context = useContext(DashboardContext);
 
     if (!context) {
-        throw new Error('useLayoutSidebar must be used within a LayoutSidebarProvider');
+        throw new Error('useDashboardContext must be used within a DashboardProvider');
     }
 
     return context;
 
+}
+
+
+function generateDynamicData(originalData: { [key: number]: DashboardLineWithTextsProps[] }) {
+    const updatedData: { [key: number]: DashboardLineWithTextsProps[] } = {};
+
+    for (const key in originalData) {
+        updatedData[key] = originalData[key].map(item => {
+            const randomPercent = Math.floor(Math.random() * 100) + 1;
+            const randomPrice = parseFloat((Math.random() * 30 - 10).toFixed(2));
+
+            return {
+                leftText: item.leftText,
+                percent: randomPercent,
+                type: randomPrice >= 0 ? "W" : "L",
+                rightPriceText: `$${randomPrice}`,
+                rightPercentText: `${randomPercent.toFixed(2)}%`
+            };
+        });
+    }
+
+    return updatedData;
 }

@@ -15,12 +15,13 @@ const Main = () => {
       console.log('Token expired, please log in again.');
       logoutUser();
     } else {
-      // Check if the token is about to expire in 5 minutes
+
+
       const expirationTime = localStorage.getItem('expiresIn');
       const currentTime = new Date().getTime();
       const remainingTimeUntilExpiration = (parseInt(expirationTime || '0') * 1000) - currentTime;
 
-      // 5 minutes before expiration (5 minutes = 300,000 ms)
+
       if (remainingTimeUntilExpiration <= 300000) {
         console.log('Token about to expire in 5 minutes, refreshing token...');
         refreshToken();

@@ -1,4 +1,4 @@
-import LineProgressBar from "../../../components/ProgressBars/LineProgressBar"; 
+import LineProgressBar from "../../../components/ProgressBars/LineProgressBar";
 import { DashboardLineProgressBarCardProps } from "../../../Types/Dashboard";
 
 

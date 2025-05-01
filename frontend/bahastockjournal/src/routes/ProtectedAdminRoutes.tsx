@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserAPI } from '../common/ServerBackEnd'; 
+import { UserAPI } from '../common/ServerBackEnd';
 
 interface ProtectedAdminRouteProps {
     children: React.ReactNode;

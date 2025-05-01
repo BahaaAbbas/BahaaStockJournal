@@ -51,7 +51,7 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
 
 
-      const expiresIn = Math.floor(Date.now() / 1000) + 3600; // 1 hour expiration
+      const expiresIn = Math.floor(Date.now() / 1000) + 3600;
       localStorage.setItem('expiresIn', expiresIn.toString());
 
 

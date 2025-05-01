@@ -1,18 +1,19 @@
 
-import  {  useEffect, useState } from 'react'
-import {  Link,  useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { AiFillHome } from "react-icons/ai";
 import { FaCalendarAlt } from "react-icons/fa";
 import { FaChartSimple } from "react-icons/fa6";
 import { FaChartLine } from "react-icons/fa6";
 import { BsJournalText } from "react-icons/bs";
 import { FaSearch } from "react-icons/fa";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"; // arrow for toggle
-import { FaCloudDownloadAlt } from "react-icons/fa"; // download icon
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { FaCloudDownloadAlt } from "react-icons/fa"; 
 import { useLayoutSidebar } from '../contexts/LayoutSidebarContext';
 import { useTheme } from '../contexts/ThemeContext';
 import Logo from '../assets/logo.png';
 import { Sun, Moon, User } from "lucide-react";
+import { useReportsContext } from '../contexts/ReportsContext';
 
 
 const MenuWordIcons = [
@@ -33,6 +34,10 @@ const LayoutSideBar = () => {
     const { theme, toggleTheme } = useTheme();
     const [currentUserEmail, setCurrentUserEmail] = useState<string | null>(null);
     const navigate = useNavigate();
+    const { setReportsTypeCalendar, setReportsTypeRecent } = useReportsContext();
+    const [activeMenu, setActiveMenu] = useState<string>("dashboard");
+
+
 
     useEffect(() => {
         const fetchCurrentUser = () => {
@@ -110,15 +115,28 @@ const LayoutSideBar = () => {
                     <div className='mb-14 flex flex-col gap-5 cursor-pointer font-semibold '>
                         {MenuWordIcons.map((item, index) => {
 
-                            const isActive = location.pathname === `/${item.word.toLowerCase()}`;
-
+                            const isActive = activeMenu === item.word.toLowerCase();
 
                             return (
                                 <div
                                     key={index}
 
                                     onClick={
-                                        () => navigate(`/${item.word.toLocaleLowerCase()}`)
+
+                                        () => {
+                                            if (item.word.toLowerCase() === "calendar") {
+                                                setActiveMenu("calendar");
+                                                setReportsTypeCalendar();
+                                                navigate("/reports");
+                                            } else if (item.word.toLowerCase() === "reports") {
+                                                setActiveMenu("reports");
+                                                setReportsTypeRecent();
+                                                navigate("/reports");
+                                            } else {
+                                                setActiveMenu(item.word.toLowerCase());
+                                                navigate(`/${item.word.toLowerCase()}`);
+                                            }
+                                        }
                                     }
 
 
@@ -159,7 +177,7 @@ group-hover:opacity-100 transition-opacity  whitespace-nowrap
                     <div className='flex justify-center mb-2 '>
                         <button
                             onClick={() => navigate('/import')}
-                            className={`flex items-center gap-2 bg-[#20b26c] cursor-pointer py-2 rounded-lg text-white font-semibold  whitespace-nowrap
+                            className={`flex items-center gap-2 bg-[#20b26c] hover:bg-teal-600 cursor-pointer py-2 rounded-lg text-white font-semibold  whitespace-nowrap
 ${!isLayoutSidebarOpen ? 'px-4 justify-center' : 'px-6'}
 `}>
                             <FaCloudDownloadAlt className='inline-block' />

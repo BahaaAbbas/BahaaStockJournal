@@ -3,7 +3,7 @@ import { LineProgressBarProps } from "../../Types/ProgressBars";
 
 
 
-const LineProgressBar = ({ percent, Text , type }: LineProgressBarProps) => {
+const LineProgressBar = ({ percent, Text, type }: LineProgressBarProps) => {
     const [hoverText, setHoverText] = useState<string | undefined>(undefined);
 
     return (
@@ -12,7 +12,7 @@ const LineProgressBar = ({ percent, Text , type }: LineProgressBarProps) => {
 
             {/* Progress Stroke (Foreground Bar) */}
             <div
-                className={`absolute top-0 left-0 h-[7px] ${type==='W'? 'bg-[#259863]' : 'bg-[#f05143]'} rounded-md transition-all duration-300`}
+                className={`absolute top-0 left-0 h-[7px] ${type === 'W' ? 'bg-[#259863]' : 'bg-[#f05143]'} rounded-md transition-all duration-300`}
                 style={{ width: `${percent}%` }}
                 onMouseEnter={() => setHoverText(Text)}
                 onMouseLeave={() => setHoverText(undefined)}

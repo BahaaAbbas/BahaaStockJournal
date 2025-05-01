@@ -13,10 +13,10 @@ api.interceptors.request.use(
 
         const isTokenExpired = checkTokenExpiration();
         if (isTokenExpired) {
-            await refreshToken();  // Refresh token if expired
+            await refreshToken();
         }
 
-        const newToken = localStorage.getItem('token'); // Get the new token after refresh
+        const newToken = localStorage.getItem('token');
         if (newToken) {
             config.headers.Authorization = `Bearer ${newToken}`;
         }

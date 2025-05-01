@@ -1,9 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-// import transactionRoutes from './routes/transactionRoutes';
 import authRoutes from './routes/authRoutes.js';
-
+import tradeRoutes from './routes/tradeRoutes.js';
 const app = express();
 
 
@@ -21,8 +20,9 @@ app.use(bodyParser.json());
 
 
 //Routes
-// app.use('/transactions', transactionRoutes);
+
 app.use('/auth', authRoutes);
+app.use('/trade', tradeRoutes);
 
 //Export app
 export default app;

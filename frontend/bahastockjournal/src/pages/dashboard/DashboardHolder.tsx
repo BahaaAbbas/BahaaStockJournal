@@ -6,46 +6,29 @@ import { FaChartLine } from "react-icons/fa6";
 import WinningVsLosingTrades from "./pages/WinningVsLosingTrades";
 import DashboardHalfCirculeCard from "./components/DashboardHalfCirculeCard";
 import DashboardLineProgressBarCard from "./components/DashboardLineProgressBarCard";
-import CumulativePandL from "./pages/CumulativePandL";
-import CumulativeDrawdown from "./pages/CumulativeDrawdown";
-import WinPercentage from "./pages/WinPercentage";
-import DailyVolume from "./pages/DailyVolume";
-import AverageTradePandL from "./pages/AverageTradePandL";
-import OpenTrades from "./pages/OpenTrades";
 import DashboardPerformanceCard from "./components/DashboardPerformanceCard";
 import { useDashboardContext } from "../../contexts/DashboardContext";
+import DashboardChartCard from "./components/DashboardChartCard";
 
 
 
 const DashboardHolder = () => {
 
-    const sampleData = [
-        { date: '2024-11-01', cumulativePL: 200 },
-        { date: '2024-11-02', cumulativePL: 450 },
-        { date: '2024-11-03', cumulativePL: 300 },
-    ];
-
-    const sampleData2 = [
-        { date: '2024-11-01', cumulativePL: 450 },
-        { date: '2024-11-02', cumulativePL: 600 },
-        { date: '2024-11-03', cumulativePL: 150 },
-    ];
-
-
-
-    const sampleData3 = [
-        { date: '2024-11-01', volume: 450 },
-        { date: '2024-11-02', volume: 600 },
-        { date: '2024-11-03', volume: 150 },
-    ];
-
 
 
     const {
         PerformanceByDayOfWeek, PerformanceByDuration, PerformanceByPrice,
-        PerformanceByHourOfDay, PerformanceByInstrumentOpeningGap, PerformanceByInstrumentDayType,
-        PerformanceByInstrumentVolume, PerformanceByMonthOfYear, PerformanceBySymbolAtr,
-        PerformanceByRvol, PerformanceByInstrumentMovement
+        PerformanceByHourOfDay, PerformanceByMonthOfYear,
+
+        normalMatrices,
+        dynamicPerformanceBySymbolAtr, dynamicPerformanceByInstrumentMovement,
+        dynamicPerformanceByInstrumentVolume, dynamicPerformanceByInstrumentDayType,
+        dynamicPerformanceByInstrumentOpeningGap,
+
+        cumulativePnLData, winPercentagesData, cumulativeDrawdownData, dailyVolumeData, averageTradePnLData,
+
+
+
 
     } = useDashboardContext()
 
@@ -69,10 +52,12 @@ const DashboardHolder = () => {
 
                     <DashboardWeekly />
 
+
+
                     {/* 1st */}
                     <div className="flex w-full gap-2 ">
                         <div className="flex-1">
-                            <CumulativePandL data={sampleData} />
+                            <DashboardChartCard title="Cumulative P&L" chartType="Line" data={cumulativePnLData} dataKey="value" />
                         </div>
 
 
@@ -83,12 +68,12 @@ const DashboardHolder = () => {
                                 <DashboardLineProgressBarCard
                                     Icon={FaChartLine}
                                     title="Hold Time Winning Trades vs Losing Trades"
-                                    textContent1="5 minutes"
-                                    textContent2="3 minutes"
-                                    percentStroke={90}
-                                    percentTrail={10}
-                                    strokeText="winningIsL"
-                                    trailText="losingLine"
+                                    textContent1={`${normalMatrices[11]} minutes`}
+                                    textContent2={`${normalMatrices[12]} minutes`}
+                                    percentStroke={100}
+                                    percentTrail={100}
+                                    strokeText="Winning"
+                                    trailText="Losing"
 
 
                                 />
@@ -98,20 +83,20 @@ const DashboardHolder = () => {
                                 <DashboardLineProgressBarCard
                                     Icon={FaChartLine}
                                     title="Average Winning Trade vs Losing Trade"
-                                    textContent1="$ 5,522.07"
-                                    textContent2="$ -470"
-                                    percentStroke={75}
-                                    percentTrail={25}
-                                    strokeText="winningIsL"
-                                    trailText="losingLine"
+                                    textContent1={`$${normalMatrices[9]}`}
+                                    textContent2={`$${normalMatrices[10]}`}
+                                    percentStroke={100}
+                                    percentTrail={100}
+                                    strokeText="Winning"
+                                    trailText="Losing"
 
 
                                 />
 
                                 <DashboardHalfCirculeCard
-                                    percent={75}
-                                    trailText="losing"
-                                    strokeText="winningIsL"
+                                    percent={50}
+                                    trailText={`${normalMatrices[14]}`}
+                                    strokeText={`${normalMatrices[13]}`}
                                     title="Largest Gain vs Largest Loss"
                                     Icon={FaChartLine}
                                 />
@@ -126,7 +111,7 @@ const DashboardHolder = () => {
                     {/* 2nd */}
                     <div className="flex w-full gap-2">
                         <div className="flex-1">
-                            <WinPercentage data={sampleData3} />
+                            <DashboardChartCard title="Win %" chartType="Bar" data={winPercentagesData} dataKey="value" />
                         </div>
 
 
@@ -139,8 +124,8 @@ const DashboardHolder = () => {
                             <div className="flex  flex-col  gap-2">
                                 <DashboardHalfCirculeCard
                                     percent={75}
-                                    trailText="losing"
-                                    strokeText="winningIsL"
+                                    trailText="Losing"
+                                    strokeText="Winning"
                                     title="Average MFE vs MAE"
                                     Icon={FaChartLine}
                                 />
@@ -155,7 +140,7 @@ const DashboardHolder = () => {
                     {/* 3rd */}
                     <div className="flex w-full gap-2 ">
                         <div className="flex-1">
-                            <CumulativeDrawdown data={sampleData2} />
+                            <DashboardChartCard title="Cumulative Drawdown" chartType="Line" data={cumulativeDrawdownData} dataKey="value" />
                         </div>
 
 
@@ -175,7 +160,7 @@ const DashboardHolder = () => {
                     {/* 4th */}
                     <div className="flex w-full gap-2 ">
                         <div className="flex-1">
-                            <DailyVolume data={sampleData3} />
+                            <DashboardChartCard title="Daily Volume" chartType="Bar" data={dailyVolumeData} dataKey="value" />
                         </div>
 
 
@@ -185,13 +170,13 @@ const DashboardHolder = () => {
                                 <DashboardDisplayCardHolder
                                     Icon={MdAttachMoney}
                                     title="Total Fees"
-                                    content="$ 0.00"
+                                    content={`$${normalMatrices[4]}`}
                                 />
                                 <DashboardHalfCirculeCard
-                                    percent={75}
-                                    trailText="losing"
-                                    strokeText="winningIsL"
-                                    content="29.14"
+                                    percent={50}
+                                    trailText="Losing"
+                                    strokeText="Winning"
+                                    content={`${normalMatrices[5]?.toFixed(2)}`}
                                     title="Profit Factor"
                                     Icon={FaChartLine}
                                 />
@@ -201,13 +186,13 @@ const DashboardHolder = () => {
                                 <DashboardDisplayCardHolder
                                     Icon={FaChartLine}
                                     title="Max Consecutive Wins"
-                                    content="100"
+                                    content={`${normalMatrices[6]}`}
                                 />
 
                                 <DashboardDisplayCardHolder
                                     Icon={FaChartLine}
                                     title="Max Consecutive Losses"
-                                    content="5"
+                                    content={`${normalMatrices[7]}`}
                                 />
 
                             </div>
@@ -220,7 +205,7 @@ const DashboardHolder = () => {
                     {/* 5th */}
                     <div className="flex w-full gap-2  ">
                         <div className="flex-1">
-                            <AverageTradePandL data={sampleData3} />
+                            <DashboardChartCard title="Average Trade P&L" chartType="Bar" data={averageTradePnLData} dataKey="value" />
                         </div>
 
 
@@ -230,7 +215,7 @@ const DashboardHolder = () => {
                             </div>
 
                             <div className="flex   ">
-                                <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Symbol Atr" pagination={true} data={PerformanceBySymbolAtr} />
+                                <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Symbol Atr" pagination={true} data={dynamicPerformanceBySymbolAtr} />
                             </div>
 
                         </div>
@@ -241,12 +226,12 @@ const DashboardHolder = () => {
                     <div className="flex w-full gap-2 justify-between ">
 
                         <div className="flex flex-col gap-2">
-                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Movement" pagination={true} data={PerformanceByInstrumentMovement} />
+                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Movement" pagination={true} data={dynamicPerformanceByInstrumentMovement} />
 
                             <DashboardDisplayCardHolder
                                 Icon={FaChartLine}
                                 title="Average Daily Volume"
-                                content="26668"
+                                content={`${normalMatrices[8]}`}
                             />
 
                         </div>
@@ -254,10 +239,10 @@ const DashboardHolder = () => {
                             <DashboardDisplayCardHolder
                                 Icon={FaChartLine}
                                 title="Total Number of Trades"
-                                content="5234"
+                                content={`${normalMatrices[15]}`}
                             />
 
-                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Volume" pagination={true} data={PerformanceByInstrumentVolume} />
+                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Volume" pagination={true} data={dynamicPerformanceByInstrumentVolume} />
 
 
                         </div>
@@ -265,13 +250,13 @@ const DashboardHolder = () => {
 
 
                         <div className="flex flex-col gap-2">
-                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Opening Gap" pagination={false} data={PerformanceByInstrumentOpeningGap} />
+                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Opening Gap" pagination={false} data={dynamicPerformanceByInstrumentOpeningGap} />
 
-                            <DashboardDisplayCardHolder
+                            {/* <DashboardDisplayCardHolder
                                 Icon={MdAttachMoney}
                                 title="Average Position MFE"
                                 content="$ 5,280.25"
-                            />
+                            /> */}
                         </div>
 
                         <div className="flex flex-col gap-2">
@@ -280,7 +265,7 @@ const DashboardHolder = () => {
                                 title="Average Position MAE"
                                 content="$ -50.87 "
                             />
-                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Day Type" pagination={false} data={PerformanceByInstrumentDayType} />
+                            <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Instrument Day Type" pagination={false} data={dynamicPerformanceByInstrumentDayType} />
 
 
                         </div>
@@ -289,11 +274,11 @@ const DashboardHolder = () => {
                     </div>
 
                     {/* 7th */}
-                    <div className="w-full flex justify-between gap-2">
-            
-                        <OpenTrades />
-                        <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Rvol" pagination={true} data={PerformanceByRvol} />
-                    </div>
+                    {/* <div className="w-full flex justify-center gap-2">
+
+                       
+                        <DashboardPerformanceCard Icon={FaChartLine} title="Performance By Rvol" pagination={true} data={dynamicPerformanceByRvol} />
+                    </div> */}
 
 
                 </div>

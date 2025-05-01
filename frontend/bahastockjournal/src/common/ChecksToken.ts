@@ -1,5 +1,4 @@
 import axios from "axios";
-// import api from "./AxiosConfig";
 import { UserAPI } from "./ServerBackEnd";
 
 
@@ -10,7 +9,7 @@ export const checkTokenExpiration = () => {
     if (!token || !expiresIn) return false;
 
     const currentTime = new Date().getTime();
-    const tokenExpiryTime = parseInt(expiresIn) * 1000; // Convert expiresIn from seconds to milliseconds
+    const tokenExpiryTime = parseInt(expiresIn) * 1000;
 
 
     const remainingTime = tokenExpiryTime - currentTime;

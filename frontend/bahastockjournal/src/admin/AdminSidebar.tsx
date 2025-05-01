@@ -1,5 +1,4 @@
 import { BsFillPostcardFill } from 'react-icons/bs';
-import { TbBrandAppleArcade } from 'react-icons/tb';
 import { FaUsers } from 'react-icons/fa';
 import { IoIosTrendingUp, IoIosHome } from "react-icons/io";
 import { NavLink } from 'react-router-dom';
@@ -12,7 +11,6 @@ const adminNavItems = [
     { to: '/admin/welcome', icon: <IoIosHome className='text-2xl' />, label: 'Dashboard Home' },
     { to: '/admin/users', icon: <FaUsers className='text-2xl' />, label: 'Manage Users' },
     { to: '/admin/stats', icon: <BsFillPostcardFill className='text-2xl' />, label: 'Summary' },
-    { to: '/admin/apps', icon: <TbBrandAppleArcade className='text-2xl' />, label: 'Applications' },
 ];
 
 

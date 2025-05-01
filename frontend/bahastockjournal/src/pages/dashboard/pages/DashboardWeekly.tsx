@@ -1,29 +1,69 @@
 import moment from 'moment';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoIosDocument } from "react-icons/io";
-import { DashboardWeeklyTempProps } from '../../../Types/Dashboard'; 
+import { DashboardWeeklyTempProps } from '../../../Types/Dashboard';
+import axios from 'axios';
+import { TradeAPI } from '../../../common/ServerBackEnd';
 
 
 const DashboardWeekly = () => {
 
+    const [currentUserEmail, setCurrentUserEmail] = useState<string>('');
+    const [weeklyData, setWeeklyData] = useState<DashboardWeeklyTempProps[]>([]);
     const formattedDate = moment().format('MMM YYYY');
-    
-   
 
-    const weekDays = useMemo(()=> {
+    useEffect(() => {
+        
+        const fetchCurrentUserEmail = () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    setCurrentUserEmail(payload.email);
+                }
+            } catch (error) {
+                console.error('Failed to fetch current user:', error);
+            }
+        };
+
+      
+        const fetchWeeklyData = async () => {
+            try {
+               
+                fetchCurrentUserEmail();
+
+              
+                if (currentUserEmail) {
+                    const response = await axios({
+                        method: TradeAPI.Weekly_Entries.method,
+                        url: `${TradeAPI.Weekly_Entries.url}?email=${currentUserEmail}`,
+                    });
+                    const data = response.data;
+                    setWeeklyData(data);
+                }
+            } catch (error) {
+                console.error('Error fetching weekly data:', error);
+            }
+        };
+
+        fetchWeeklyData(); 
+    }, [currentUserEmail]);
+
+
+    const weekDays = useMemo(() => {
         const daysArray = [];
         const startOfWeek = moment().startOf('week').add(1, 'days');
 
-        for(let i = 0; i < 7 ; i++) {
-            const currentDate = startOfWeek.clone().add(i,'days');
+        for (let i = 0; i < 7; i++) {
+            const currentDate = startOfWeek.clone().add(i, 'days');
             daysArray.push({
                 day: currentDate.format('DD'),
                 name: currentDate.format('ddd'),
             });
-
         }
+
         return daysArray;
-    }, [])
+    }, []);
 
 
 
@@ -39,15 +79,18 @@ const DashboardWeekly = () => {
 
             {/* weekly template */}
             <div className="flex gap-1 px-3 ">
-                {weekDays.map((date, index) => (
-                    <DashboardWeeklyTemp
-                        key={index} 
-                        title1Date={date.day}
-                        title2DayName={date.name}
-                        amount= {0}
-                        numOfTrades={0} 
-                    />
-                ))}
+                {weekDays.map((date, index) => {
+                    const dayData = weeklyData.find((item) => item.title1Date === date.day);
+                    return (
+                        <DashboardWeeklyTemp
+                            key={index}
+                            title1Date={date.day}
+                            title2DayName={date.name}
+                            amount={dayData?.amount || 0}
+                            numOfTrades={dayData?.numOfTrades || 0}
+                        />
+                    );
+                })}
             </div>
 
 
@@ -66,7 +109,7 @@ export default DashboardWeekly
 
 
 const DashboardWeeklyTemp = ({ title1Date, title2DayName, amount, numOfTrades }: DashboardWeeklyTempProps) => {
-    
+
     return (
         <div className={`hover:bg-[#f0f0f0] dark:hover:bg-[#363b52d3] border dark:border-[#3b4154] border-[#aeb5ce] cursor-pointer flex flex-col justify-between font-semibold text-LD  flex-1 min-w-[120px] h-[120px] rounded-lg relative`}>
             <div className='flex  justify-between items-center p-3 gap-1 '>

@@ -23,11 +23,6 @@ const WelcomeAdmin = () => {
 
                             </div>
 
-                            <div className='border border-blue-400 rounded-lg hover:bg-blue-400 hover:text-white duration-200 px-2 py-1'>
-                                <Link to='/admin'>Applications</Link>
-
-                            </div>
-
 
                         </div>
 

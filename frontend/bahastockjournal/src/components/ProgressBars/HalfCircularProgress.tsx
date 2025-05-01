@@ -7,7 +7,7 @@ const HalfCircularProgress = ({ percent, strokeText, trailText }: CircularProgre
     const radius = 50;
     const strokeWidth = 8;
     const trailWidth = 6;
-    const circumference = Math.PI * radius; 
+    const circumference = Math.PI * radius;
     const progressOffset = ((100 - percent) / 100) * circumference;
 
     const [hoverText, setHoverText] = useState<string | null>(null);
@@ -17,7 +17,7 @@ const HalfCircularProgress = ({ percent, strokeText, trailText }: CircularProgre
             <svg width="120" height="70" viewBox="0 0 120 60">
                 {/* Trail (Background Half-Circle) */}
                 <path
-                    d="M 10,50 A 50,50 0 0,1 110,50" 
+                    d="M 10,50 A 50,50 0 0,1 110,50"
                     fill="transparent"
                     stroke="#f05143"
                     strokeWidth={trailWidth}
@@ -27,7 +27,7 @@ const HalfCircularProgress = ({ percent, strokeText, trailText }: CircularProgre
 
                 {/* Progress Stroke */}
                 <path
-                    d="M 10,50 A 50,50 0 0,1 110,50" 
+                    d="M 10,50 A 50,50 0 0,1 110,50"
                     fill="transparent"
                     stroke="#259863"
                     strokeWidth={strokeWidth}

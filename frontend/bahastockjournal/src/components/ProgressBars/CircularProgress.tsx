@@ -3,7 +3,7 @@ import { CircularProgressProps } from "../../Types/ProgressBars";
 
 
 
-const CircularProgress = ({ percent , strokeText , trailText }: CircularProgressProps) => {
+const CircularProgress = ({ percent, strokeText, trailText }: CircularProgressProps) => {
     const radius = 50;
     const strokeWidth = 8;
     const trailWidth = 6;

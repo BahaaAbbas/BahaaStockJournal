@@ -2,7 +2,7 @@ const BackEndDomain = 'http://localhost:5000';
 
 export const UserAPI = {
 
-    //Register New User
+
     Register_User: {
         url: `${BackEndDomain}/auth/register`,
         method: 'post'
@@ -58,6 +58,45 @@ export const UserAPI = {
 
 }
 
-//export const StockAPI = {
-    
-// }
+export const TradeAPI = {
+    Create_Trade: {
+        url: `${BackEndDomain}/trade/create-trade`,
+        method: 'post'
+    },
+
+    Normal_Matrices: {
+        url: `${BackEndDomain}/trade/normal-matrices`,
+        method: 'get'
+    },
+
+    Performance_Matrices: {
+        url: `${BackEndDomain}/trade/performance-matrices`,
+        method: 'get'
+    },
+
+    Other_Matrices: {
+        url: `${BackEndDomain}/trade/other-matrices`,
+        method: 'get'
+    },
+
+    Weekly_Entries: {
+        url: `${BackEndDomain}/trade/weekly-entries`,
+        method: 'get'
+    },
+    Table_Trades: {
+        url: `${BackEndDomain}/trade/table-trades`,
+        method: 'get'
+    },
+    Search_Trades: {
+        url: `${BackEndDomain}/trade/search-trades`,
+        method: 'get'
+    },
+    Calendar_Trades: {
+        url: `${BackEndDomain}/trade/calendar-trades`,
+        method: 'get'
+    },
+    CalendarMonth_Trades: {
+        url: `${BackEndDomain}/trade/calendarMonth-trades`,
+        method: 'get'
+    },
+}

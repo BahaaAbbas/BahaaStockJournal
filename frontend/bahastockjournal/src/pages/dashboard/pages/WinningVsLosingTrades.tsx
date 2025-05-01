@@ -1,8 +1,10 @@
 import { RiNumbersLine } from "react-icons/ri";
-import CircularProgress from "../../../components/ProgressBars/CircularProgress"; 
+import CircularProgress from "../../../components/ProgressBars/CircularProgress";
+import { useDashboardContext } from "../../../contexts/DashboardContext";
 
 const WinningVsLosingTrades = () => {
 
+    const { normalMatrices } = useDashboardContext();
 
     return (
         <div className='bgS-LD text-LD  min-w-[250px] h-[160px] rounded-lg relative font-semibold'>
@@ -18,11 +20,11 @@ const WinningVsLosingTrades = () => {
 
             {/* Winning vs Losing Trades chart */}
             <div className="flex justify-center items-center">
-                <CircularProgress 
-                percent={75} 
-                strokeText="Winning"
-                trailText="Losing"
-                
+                <CircularProgress
+                    percent={normalMatrices[1]}
+                    strokeText={`${normalMatrices[1]}%`}
+                    trailText={`${normalMatrices[3]}%`}
+
                 />
 
             </div>

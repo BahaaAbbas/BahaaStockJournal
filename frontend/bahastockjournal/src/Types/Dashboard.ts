@@ -57,10 +57,19 @@ export interface ChartsBarPLProps {
     data: { date: string; volume: number }[];
 }
 
+export type ChartType = 'Line' | 'Bar';
+
+export interface DashboardChartProps {
+    title: string;
+    chartType: ChartType;
+    data: { date: string; value: number }[];
+    dataKey: string;
+}
+
 export interface DashboardPerformanceCardProps {
     Icon: IconType;
     title: string;
     pagination?: boolean;
-    height?:string;
+    height?: string;
     data?: { [key: number]: DashboardLineWithTextsProps[] };
 }

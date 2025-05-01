@@ -1,87 +1,75 @@
+import { useState } from "react";
+import TradesTable from "../trades/components/TradesTable";
 
 const Search = () => {
+  const [inputSymbol, setInputSymbol] = useState("");
+  const [submittedSymbol, setSubmittedSymbol] = useState<string | null>(null);
+
+  const handleSearch = () => {
+    const trimmed = inputSymbol.trim();
+    if (trimmed) {
+      setSubmittedSymbol(trimmed.toUpperCase());
+    }
+  };
+
+  const handleClear = () => {
+    setInputSymbol("");
+    setSubmittedSymbol(null);
+  };
+
   return (
-    // for page
-    <div className=" h-screen p-3 bgLayout-LD  ">
-      {/* for title and header page */}
-      <div className="flex ">
-
-        <p className="text-xl  font-semibold">Search</p>
-
+    <div className="min-h-screen p-3 bgLayout-LD">
+      {/* Header */}
+      <div className="flex">
+        <p className="text-xl font-semibold">Search</p>
       </div>
 
-      {/* for page content holder */}
-      <div className=" rounded-md  bgS-LD ">
-
-        {/* for page content itself */}
+      {/* Content Holder */}
+      <div className="rounded-md bgS-LD">
         <div className="flex items-center justify-center gap-2 flex-col pb-8">
-          <p className="text-[12px]  font-semibold py-3">
-            Search your trade notes, journal notes, and comments made on your trades/notes:
+          <p className="text-[12px] font-semibold py-3">
+            Search your trades by Symbol Name:
           </p>
 
-          {/* input search, button */}
-          <div className=' flex gap-1 w-[400px] justify-center'>
+          {/* Input and Buttons */}
+          <div className="flex gap-2 w-[400px] justify-center">
             <input
-              className="border w-[250px] py-1 px-3 text-LD border-[#bcb2b7] dark:border-[#474446] dark:focus:border-transparent dark:bg-[#2e3446] bg-white rounded-md focus:outline-none "
+              value={inputSymbol}
+              onChange={(e) => {
+                setInputSymbol(e.target.value);
+                if (e.target.value.trim() === "") {
+                  setSubmittedSymbol(null);
+                }
+              }}
+              placeholder="Enter symbol (e.g. AAPL)"
+              className="border w-[250px] py-1 px-3 text-LD border-[#bcb2b7] dark:border-[#474446] dark:focus:border-transparent dark:bg-[#2e3446] bg-white rounded-md focus:outline-none"
             />
 
-            <button className='title-text bg-[#1fab68] py-2 px-3 rounded-md  cursor-pointer'>Search</button>
+            <button
+              onClick={handleSearch}
+              className="bg-[#1fab68] py-2 px-3 rounded-md cursor-pointer text-white font-semibold"
+            >
+              Search
+            </button>
 
+            <button
+              onClick={handleClear}
+              className="bg-gray-400 hover:bg-gray-500 py-2 px-3 rounded-md cursor-pointer text-white font-semibold"
+            >
+              Clear
+            </button>
           </div>
 
-          {/* filter */}
-          <div className='flex gap-2 '>
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="radio"
-                name="option"
-                value="trades"
-                className="hidden peer "
-              />
-              <span className="w-4 h-4 rounded-full border-2 border-[#858c9a] peer-checked:border-green-500 peer-checked:bg-green-500 flex items-center justify-center">
-                <span className="w-2 h-2 rounded-full bg-white "></span>
-              </span>
-              <span className="title-text !text-[10px]">Trades</span>
-            </label>
-
-
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="radio"
-                name="option"
-                value="trades"
-                className="hidden peer"
-              />
-              <span className="w-4 h-4 rounded-full border-2 border-[#858c9a] peer-checked:border-green-500 peer-checked:bg-green-500 flex items-center justify-center">
-                <span className="w-2 h-2 rounded-full bg-white "></span>
-              </span>
-              <span className="title-text !text-[10px]">Journal entries </span>
-            </label>
-
-
-
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="radio"
-                name="option"
-                value="trades"
-                className="hidden peer"
-              />
-              <span className="w-4 h-4 rounded-full border-2 border-[#858c9a] peer-checked:border-green-500 peer-checked:bg-green-500 flex items-center justify-center">
-                <span className="w-2 h-2 rounded-full bg-white "></span>
-              </span>
-              <span className="title-text !text-[10px]">Comments</span>
-            </label>
-
-
-          </div>
-
+          {/* Trades Table Display */}
+          {submittedSymbol && (
+            <div className="w-full mt-6">
+              <TradesTable Symbol={submittedSymbol} />
+            </div>
+          )}
         </div>
-
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

@@ -15,6 +15,7 @@ import Reports from "../pages/reports/Reports";
 import Trades from "../pages/trades/Trades";
 import Journal from "../pages/journal/Journal";
 import Imports from "../pages/import/Imports";
+import AdminStats from "../admin/AdminStats";
 
 const routes = [
     {
@@ -134,6 +135,14 @@ const adminRoutes = [
                     </ProtectedAdminRoutes>
                 )
             },
+            {
+                path: 'stats',
+                element: (
+                    <ProtectedAdminRoutes>
+                        <AdminStats />
+                    </ProtectedAdminRoutes>
+                )
+            }
         ]
     }
 ];
